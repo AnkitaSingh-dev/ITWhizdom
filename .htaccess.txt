@@ -1,0 +1,38 @@
+# to redirect http to https
+
+
+RewriteEngine On
+
+RewriteCond %{HTTPS} off
+
+# First rewrite to HTTPS:
+
+# Don't put www. here. If it is already there it will be included, if not
+
+# the subsequent rule will catch it.
+
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Now, rewrite any request to the wrong domain to use www.
+
+# [NC] is a case-insensitive match
+
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+
+RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+ 
+
+# to redirect urls with index.php to /
+
+RewriteCond %{THE_REQUEST} ^.*/index.php
+
+RewriteRule ^(.*)index.php$ https://www.itwhizdom.com/$1 [R=301,L]
+
+# to redirect non www requests to www url
+
+ 
+
+RewriteCond %{HTTP_HOST} !^www.itwhizdom.com$ [NC]
+
+RewriteRule ^(.*)$ https://www.itwhizdom.com/$1 [L,R=301]
